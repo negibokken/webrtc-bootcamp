@@ -1,38 +1,36 @@
-#!/usr/bin/env node
 'use strict';
-const WebSocketClient = require('websocket').client;
-const readlineSync = require('readline-sync');
+const W3CWebSocket = require('websocket').w3cwebsocket;
 
-const client = new WebSocketClient();
-
-const number = Math.round(Math.random() * 0xFFFFFF);
-
-client.on('connectFailed', function(error) {
-  console.log('Connect Error: ' + error.toString());
-});
-
-client.on('connect', function(connection) {
+// client
+const client = new W3CWebSocket('ws://localhost:4000/', 'echo-protocol');
+// handler
+client.onerror = function() {
+  console.log('Connection Error');
+};
+client.onopen = function() {
   console.log('WebSocket Client Connected');
-  connection.on('error', function(error) {
-    console.log('Connection Error: ' + error.toString());
-  });
-  connection.on('close', function() {
-    console.log('echo-protocol Connection Closed');
-  });
-  connection.on('message', function(message) {
-    if (message.type === 'utf8') {
-      console.log("Received: '" + message.utf8Data + "'");
-    }
-  });
+};
+client.onclose = function() {
+  console.log('echo-protocol Client Closed');
+};
 
-  function sendMessage() {
-    if (connection.connected) {
-      const message = readlineSync.question('message: ');
-      connection.sendUTF(`Client: ${number.toString()}: ${message}`);
-      setTimeout(sendMessage, 100);
-    }
-  }
-  sendMessage();
+// UI controllers
+// client id
+const id = Math.round(Math.random() * 0xFF);
+const $send = document.getElementById('send');
+const $ul = document.getElementById('chatArea');
+$send.addEventListener('click', () => {
+  const $message = document.getElementById('message');
+  client.send(`${$message.value} (ID:${id})`);
+  $message.value = ""
 });
 
-client.connect('ws://localhost:8080/', 'echo-protocol');
+client.onmessage = function(e) {
+  if (typeof e.data === 'string') {
+    const $li = document.createElement('li');
+    $li.innerHTML = e.data;
+    $ul.appendChild($li);
+  }
+};
+
+
