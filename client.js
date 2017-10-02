@@ -1,36 +1,35 @@
 'use strict';
-const W3CWebSocket = require('websocket').w3cwebsocket;
 
 // client
-const client = new W3CWebSocket('ws://localhost:4000/', 'echo-protocol');
+const client = new WebSocket('ws://localhost:4000/', 'echo-protocol');
 // handler
-client.onerror = function() {
+
+client.addEventListener('error', () => {
   console.log('Connection Error');
-};
-client.onopen = function() {
+});
+client.addEventListener('open', () => {
   console.log('WebSocket Client Connected');
-};
-client.onclose = function() {
+});
+client.addEventListener('close', () => {
   console.log('echo-protocol Client Closed');
-};
+});
 
 // UI controllers
 // client id
 const id = Math.round(Math.random() * 0xFF);
-const $send = document.getElementById('send');
-const $ul = document.getElementById('chatArea');
+const $send = document.querySelector('#send');
+const $ul = document.querySelector('#chatArea');
 $send.addEventListener('click', () => {
-  const $message = document.getElementById('message');
+  const $message = document.querySelector('#message');
   client.send(`${$message.value} (ID:${id})`);
   $message.value = ""
 });
 
-client.onmessage = function(e) {
+client.addEventListener('message', (e) => {
   if (typeof e.data === 'string') {
     const $li = document.createElement('li');
-    $li.innerHTML = e.data;
+    $li.textContent = e.data;
     $ul.appendChild($li);
   }
-};
-
+});
 

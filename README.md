@@ -3,7 +3,7 @@
 * Run
     ```sh
     yarn install
-    ./node_modules/.bin/webpack
+    node server.js
     ```
 
 * Execute simple http server

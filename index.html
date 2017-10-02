@@ -9,18 +9,12 @@
             <video id="myVideo" style="width: 640px;height: 480px;" autoplay></video>
         </div>
 
-        <script type="text/javascript">
-            const myVideo = document.getElementById('myVideo');
-            (async () => {
-              const stream = await navigator.mediaDevices.getUserMedia({video: true, audio: false})
-              myVideo.src = window.URL.createObjectURL(stream);
-            })()
-        </script>
+        <script src="./camera.js"></script>
 
         <input id="message" type="text" /><button id="send" type="button">送信する</button>
         <div>
             <ul id="chatArea"></ul>
         </div>
-        <script src="./dist/bundle.js"></script>
+        <script src="./client.js"></script>
     </body>
 </html>
