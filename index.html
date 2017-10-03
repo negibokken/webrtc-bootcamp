@@ -3,16 +3,17 @@
 <head>
   <meta charset="utf-8">
   <title>WebRTC bootcamp</title>
-</head>
-  <h1>Chat</h1>
   <script src="chat.js"></script>
+</head>
   <body>
+    <h1>Chat</h1>
+    <p id="peerId"></p>
+    <input id="to" type="text" />
+    <button id="start">start</button>
     <video id="local" autoplay></video>
-    <!-- <script src="./camera.js"></script> -->
-
+    <video id="remote" autoplay></video>
     <ul id="messages"></ul>
     <input id="message" type="text" />
     <button id="send" type="button">送信する</button>
-    <!-- <script src="./client.js"></script> -->
   </body>
 </html>
