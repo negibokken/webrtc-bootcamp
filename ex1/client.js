@@ -1,7 +1,7 @@
 'use strict';
 
 // client
-const client = new WebSocket('ws://localhost:4000/', 'echo-protocol');
+const client = new WebSocket('ws://localhost:4000/', 'chat');
 // handler
 
 client.addEventListener('error', () => {

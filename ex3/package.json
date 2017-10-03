@@ -1,0 +1,13 @@
+{
+  "name": "webrtc-bootcamp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "readline-sync": "^1.4.7",
+    "websocket": "^1.0.24"
+  },
+  "devDependencies": {
+    "webpack": "^3.6.0"
+  }
+}

@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', (e) => {
   const peerId = Math.round(Math.random() * 0xFF).toString();
-  const ws = new WebSocket('ws://10.61.8.14:4000/', 'echo-protocol');
+  const ws = new WebSocket('ws://localhost:4000/', 'chat');
   const $send = document.querySelector('#send');
   const $message = document.querySelector('#message');
   const $ul = document.querySelector('#messages');
@@ -100,10 +100,12 @@ window.addEventListener('DOMContentLoaded', (e) => {
       console.log(message);
       if (message.data['type'] === "offer") {
         console.log(message);
-        console.log(rtcPeerConnection);
         await rtcPeerConnection.setRemoteDescription(message.data);
+        console.log('set Offer To Remote');
         const answer = await rtcPeerConnection.createAnswer();
+        console.log('createAnswer');
         await rtcPeerConnection.setLocalDescription(answer)
+        console.log('setAnswerToLocal');
         const ansMessage = JSON.stringify({
           from: peerId,
           to: message.from,
